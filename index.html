@@ -19,112 +19,20 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <!-- Imports an icon to represent the document. -->
-  <link rel="icon" href="assets/icons/icon_24.png" type="image/x-icon">
+  <link rel="icon" href="asset/icons/icon_24.png" type="image/x-icon">
 
   <!-- Imports the manifest to represent the web application. A web app must have a manifest to be a PWA. -->
   <link rel="manifest" href="manifest.json">
 
   <!-- A stylesheet to design the pages. -->
- <link href="styles/global.css" rel="stylesheet">
+  <link href="src/global.css" rel="stylesheet">
 
-
-  <!--<script type="module" src="/build/src/script/pages/app-index.js"></script>-->
-  <script type="module" src="build/pages/app-index.js"></script>
+  <script type="module" src="build/script/pages/app-index.js"></script>
 </head>
 
-<body class="templ">
+<body>
   <!-- Our app-index web component. This component is defined in src/pages/app-index.ts-->
   <app-index></app-index>
-
-  <div class="tabs">
-    
-    <div class="tabs__content">
-      <div class="tabs__pane tabs__pane_show" id="content-1">
-        <a href="https://google.com">Содержимое 1...</a>
-      </div>
-      <div class="tabs__pane" id="content-2">
-        Содержимое 2...
-      </div>
-      <div class="tabs__pane" id="content-3">
-        Содержимое 3...
-      </div>
-    </div>
-      <div class="tabs__nav">
-      <a class="tabs__link tabs__link_active" href="#content-1">Вкладка 1</a>
-      <a class="tabs__link" href="#content-2">Вкладка 2</a>
-      <a class="tabs__link" href="#content-3">Вкладка 3</a>
-    </div>
-  </div>
-
-  <script>
-    var $tabs = function (target) {
-      var
-        _elemTabs = (typeof target === 'string' ? document.querySelector(target) : target),
-        _eventTabsShow,
-        _showTab = function (tabsLinkTarget) {
-          var tabsPaneTarget, tabsLinkActive, tabsPaneShow;
-          tabsPaneTarget = document.querySelector(tabsLinkTarget.getAttribute('href'));
-          tabsLinkActive = tabsLinkTarget.parentElement.querySelector('.tabs__link_active');
-          tabsPaneShow = tabsPaneTarget.parentElement.querySelector('.tabs__pane_show');
-          // если следующая вкладка равна активной, то завершаем работу
-          if (tabsLinkTarget === tabsLinkActive) {
-            return;
-          }
-          // удаляем классы у текущих активных элементов
-          if (tabsLinkActive !== null) {
-            tabsLinkActive.classList.remove('tabs__link_active');
-          }
-          if (tabsPaneShow !== null) {
-            tabsPaneShow.classList.remove('tabs__pane_show');
-          }
-          // добавляем классы к элементам (в завимости от выбранной вкладки)
-          tabsLinkTarget.classList.add('tabs__link_active');
-          tabsPaneTarget.classList.add('tabs__pane_show');
-          document.dispatchEvent(_eventTabsShow);
-        },
-        _switchTabTo = function (tabsLinkIndex) {
-          var tabsLinks = _elemTabs.querySelectorAll('.tabs__link');
-          if (tabsLinks.length > 0) {
-            if (tabsLinkIndex > tabsLinks.length) {
-              tabsLinkIndex = tabsLinks.length;
-            } else if (tabsLinkIndex < 1) {
-              tabsLinkIndex = 1;
-            }
-            _showTab(tabsLinks[tabsLinkIndex - 1]);
-          }
-        };
-
-      _eventTabsShow = new CustomEvent('tab.show', { detail: _elemTabs });
-
-      _elemTabs.addEventListener('click', function (e) {
-        var tabsLinkTarget = e.target;
-        // завершаем выполнение функции, если кликнули не по ссылке
-        if (!tabsLinkTarget.classList.contains('tabs__link')) {
-          return;
-        }
-        // отменяем стандартное действие
-        e.preventDefault();
-        _showTab(tabsLinkTarget);
-      });
-
-      return {
-        showTab: function (target) {
-          _showTab(target);
-        },
-        switchTabTo: function (index) {
-          _switchTabTo(index);
-        }
-      }
-
-    };
-
-    $tabs('.tabs');
-  </script>
-
-
-   <!-- For more info on the pwa-update component click here https://github.com/pwa-builder/pwa-update -->
-   <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate"></script>
-   <pwa-update offlineToastDuration="0" swpath="pwabuilder-sw.js"></pwa-update>
 </body>
 
 </html>
